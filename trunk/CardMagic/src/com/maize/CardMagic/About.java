@@ -21,10 +21,14 @@ import java.util.regex.Pattern;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
+import android.content.pm.PackageManager.NameNotFoundException;
 import android.net.Uri;
 import android.os.Bundle;
 import android.text.util.Linkify;
 import android.text.util.Linkify.TransformFilter;
+import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.ImageView;
@@ -47,7 +51,17 @@ public class About extends Activity
     	super.onCreate(savedInstanceState);
         setContentView(R.layout.about);
         
-        setTitle("About Card Magic");
+        // Show name and version number in title
+        try 
+        {
+            final PackageManager packageManager = this.getPackageManager();
+			PackageInfo pinfo = packageManager.getPackageInfo(this.getPackageName(), 0);
+	        this.setTitle("About: Card Magic " + pinfo.versionName);
+		} 
+        catch (NameNotFoundException e) 
+        {
+			Log.e("NameNotFoundException", e.getMessage());
+		}
         
         // Link Maize Labs logo to maizelabs.com
         maizeLogoImageView = (ImageView) findViewById(R.id.logo);
