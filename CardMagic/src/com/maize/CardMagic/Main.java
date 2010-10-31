@@ -24,6 +24,7 @@ import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -45,7 +46,8 @@ public class Main extends Activity
 	
 	
 	/* Options menu constant */
-	private final static int ABOUT = Menu.FIRST; 
+	private final static int DEMO = Menu.FIRST; 
+	private final static int ABOUT = Menu.FIRST + 1; 
 	
 	
     /** Called when the activity is first created. */
@@ -106,6 +108,8 @@ public class Main extends Activity
     {
     	super.onCreateOptionsMenu(menu);
     	MenuItem item;
+    	item = menu.add(0, DEMO, 0, "Demo");
+    	item.setIcon(android.R.drawable.ic_menu_help);
     	item = menu.add(0, ABOUT, 0, "About");
     	item.setIcon(android.R.drawable.ic_menu_info_details);
         return true;    	
@@ -115,10 +119,17 @@ public class Main extends Activity
     @Override
     public boolean onMenuItemSelected(int featureId, MenuItem item)
     {
+    	Intent intent;
     	switch (item.getItemId())
     	{
+    		case DEMO:
+    			// Load up the demo Youtube video
+				intent = new Intent(Intent.ACTION_VIEW, Uri.parse("http://www.youtube.com/watch?v=DT5K96iwoas"));
+				startActivity(intent);
+    			return true;
+    			
     		case ABOUT:
-    			Intent intent = new Intent(this, About.class);
+    			intent = new Intent(this, About.class);
     			startActivity(intent);
     			return true;
     	}
